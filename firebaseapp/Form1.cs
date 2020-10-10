@@ -42,6 +42,18 @@ namespace firebaseapp
 
         private void btnObtener_Click(object sender, EventArgs e)
         {
+            var res = client.Get(@"Estudiantes/" + txtId.Text);
+            Estudiante std = res.ResultAs<Estudiante>();
+
+            txtNombre.Text = std.Nombre;
+            txtCurso.Text = std.Curso;
+            txtSeccion.Text = std.Seccion;
+
+            MessageBox.Show("Los datos obtenidos son:");
+        }
+
+        private void btnIngresar_Click(object sender, EventArgs e)
+        {
             Estudiante std = new Estudiante()
             {
                 Nombre = txtNombre.Text,
@@ -50,24 +62,31 @@ namespace firebaseapp
                 Seccion = txtSeccion.Text
             };
 
-            var set = client.Set(@"Estudiantes/" + txtId.Text,std);
+            var set = client.Set(@"Estudiantes/" + txtId.Text, std);
 
-            MessageBox.Show("Datos ingresados Correctamente");
-        }
-
-        private void btnIngresar_Click(object sender, EventArgs e)
-        {
-
+            MessageBox.Show("Datos Ingresados Correctamente");
         }
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
+            Estudiante std = new Estudiante()
+            {
+                Nombre = txtNombre.Text,
+                Id = txtId.Text,
+                Curso = txtCurso.Text,
+                Seccion = txtSeccion.Text
+            };
 
+            var set = client.Update(@"Estudiantes/" + txtId.Text, std);
+
+            MessageBox.Show("Datos Actualizados Correctamente");
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
+            var set = client.Delete(@"Estudiantes/" + txtId.Text);
 
+            MessageBox.Show("Datos Eliminados Correctamente");
         }
     }
 }
